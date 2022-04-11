@@ -18,14 +18,37 @@ def mainMenu() :
     #input the interval gap for the trading data
     stockInterval = input("Please enter the interval : ")
 
+    #Download the stock data
+    stock = yf.download(stockSymbol, period = stockPeriod, interval = stockInterval)
 
-    STOCK = yf.download(stockSymbol, period = stockPeriod, interval = stockInterval)
-
-    if STOCK.empty :
+    # Check if the data frame is empty then repeat
+    if stock.empty :
         print("Please enter the correct stock symbol!")
         os.system("pause")
         os.system("cls")
         mainMenu()
+    
     print("Stock Data Succesfully Acquired!")
     os.system("pause")
     os.system("cls")
+
+    return stock, stockSymbol
+
+
+def techIndicatorsMenu() :
+    print("Which Technical Indicator(s) you would like to use? ", end = "")
+    print('''
+    1. ADX
+    2. MACD
+    3. RSI
+    4. ATR
+    ''')
+
+    userChoice = input("Enter your choice :")
+
+    try :
+        userChoice = int(userChoice)
+    except:
+        print("PLEASE ENTER A NUMBER!")
+        os.system("pause")
+        os.system("cls")

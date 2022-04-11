@@ -9,5 +9,9 @@ Version 1.00
 # import all required python file(s)
 from techIndicators import menu
 
-menu.mainMenu()
+stock, stockSymbol = menu.mainMenu()
+
+stockSymbol = stockSymbol[0:4]
+
+menu.techIndicatorsMenu()
 
