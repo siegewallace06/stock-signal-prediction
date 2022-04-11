@@ -26,9 +26,6 @@ def mainMenu() :
         os.system("pause")
         os.system("cls")
         mainMenu()
-    
-    print(STOCK)
-
     print("Stock Data Succesfully Acquired!")
     os.system("pause")
     os.system("cls")
