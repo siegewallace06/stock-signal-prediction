@@ -13,5 +13,9 @@ stock, stockSymbol = menu.mainMenu()
 
 stockSymbol = stockSymbol[0:4]
 
-menu.techIndicatorsMenu()
+# print(stock)
 
+menu.techIndicatorsMenu(stock)
+
+print(stock)
+print(type(stock))
