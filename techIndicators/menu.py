@@ -1,4 +1,5 @@
 #import required module(s)
+from cv2 import Stitcher
 from ta.utils import dropna
 import yfinance as yf
 import os
@@ -6,6 +7,9 @@ import os
 # import local python file(s)
 from . import accDistIndex as ADX
 from . import movAvgConvDiv as MACD
+from . import relativeStrengthIndex as RSI
+from . import averageTrueRange as ATR
+from . import tradeSimulation as simulation
 # Basic Menu 
 
 def mainMenu() :
@@ -70,13 +74,43 @@ def techIndicatorsMenu(stock) :
 
         MACD.calculate(stock,windowFast,windowSlow,windowSignal)
     elif userChoice == 3 :
-        pass
+        window = input("please input n-period(Default period : 14) : ")
+        window = int(window)
+
+        RSI.calculate(stock, window)
+
     elif userChoice == 4 :
-        pass
+        window = input("please input n-period(Default period : 14) : ")
+        window = int(window)
+
+        ATR.calculate(stock,window)
     elif userChoice == 0 :
         print("")
 
+def simulationMenu(stock) :
+    print("Which Technical Indicator(s) you would you like to do the simulation? ", end = "")
+    print('''
+    1. ADX
+    2. MACD
+    3. RSI
+    4. ATR
+    0. Exit
+    ''')
 
-    # print("PLEASE ENTER A NUMBER!")
-    # os.system("pause")
-    # os.system("cls")
+    userChoice = input("Enter your choice : ")
+    userChoice = int(userChoice)
+
+    if userChoice == 1 :
+        signalColumn = ""
+        simulation.runSimulation(stock, signalColumn)
+    elif userChoice == 2:
+        signalColumn = ""
+        simulation.runSimulation(stock, signalColumn)
+    elif userChoice == 3 :
+        signalColumn = ""
+        simulation.runSimulation(stock, signalColumn)   
+    elif userChoice == 4 :
+        signalColumn = ""
+        simulation.runSimulation(stock, signalColumn)
+    elif userChoice == 0 :
+        exit()

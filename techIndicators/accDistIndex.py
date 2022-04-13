@@ -15,7 +15,7 @@ def calculate(stock) :
     # Add ADX Features to the data frame
     stock["ADX"] = ADXIndicator.acc_dist_index()
 
-    print("The ADX Values and Signal Recommendation has succesfully been added!")
+    print("The ADX Values and Signal Recommendation has been succesfully added!")
     print("Type anything to return to the menu")
     os.system("continue")
 

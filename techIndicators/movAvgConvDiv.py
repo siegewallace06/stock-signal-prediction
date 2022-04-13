@@ -1,3 +1,5 @@
+import os
+
 # import MACD class from ta module
 from ta.trend import MACD
 
@@ -28,3 +30,7 @@ def calculate(stock,windowFast,windowSlow,windowSignal) :
 
     stock.loc[(stock['MACD_line'] <= 0) & (stock['MACD_line']  <= stock['MACD_signal']), 'MACD_Recommend'] = 'BUY'
     stock.loc[(stock['MACD_line'] <= 0) & (stock['MACD_line']  >= stock['MACD_signal']), 'MACD_Recommend'] = 'HOLD'
+
+    print("The MACD Values and Signal Recommendation has been succesfully added!")
+    print("Type anything to return to the menu")
+    os.system("continue")
