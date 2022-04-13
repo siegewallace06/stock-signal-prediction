@@ -17,5 +17,7 @@ stockSymbol = stockSymbol[0:4]
 
 menu.techIndicatorsMenu(stock)
 
-print(stock)
-print(type(stock))
+menu.simulationMenu(stock,stockSymbol)
+
+# print(stock)
+# print(type(stock))

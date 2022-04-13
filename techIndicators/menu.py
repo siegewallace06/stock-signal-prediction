@@ -14,19 +14,22 @@ from . import tradeSimulation as simulation
 
 def mainMenu() :
     print("Welcome to Stock Simulation Program!")
-    stockSymbol = input("Please enter the stock symbol(ticker) : ")
-    stockSymbol = stockSymbol.upper()
-    #Add .JK for stock symbol in Indonesia Stock Exchange
-    stockSymbol = stockSymbol + ".JK"
+    # stockSymbol = input("Please enter the stock symbol(ticker) : ")
+    # stockSymbol = stockSymbol.upper()
     #you can use this if you dont want to manually input
-    # stockSymbol = "CODE.JK"
+    stockSymbol = "ARTO"
+    #Add .JK for stock symbol in Indonesia Stock Exchange
+    # stockSymbol = stockSymbol + ".JK"
+
     #input the period time for the trading data
-    stockPeriod = input("Please enter the period : ")
+    # stockPeriod = input("Please enter the period : ")
+    stockPeriod = "2y"
     #input the interval gap for the trading data
-    stockInterval = input("Please enter the interval : ")
+    # stockInterval = input("Please enter the interval : ")
+    stockInterval = "1h"
 
     #Download the stock data
-    stock = yf.download(stockSymbol, period = stockPeriod, interval = stockInterval)
+    stock = yf.download(stockSymbol + ".JK", period = stockPeriod, interval = stockInterval)
 
     # Check if the data frame is empty then repeat
     if stock.empty :
@@ -62,6 +65,8 @@ def techIndicatorsMenu(stock) :
 
     if userChoice == 1 :
         ADX.calculate(stock)
+        os.system("cls")
+        techIndicatorsMenu(stock)
     elif userChoice == 2:
         windowFast = input("Please input n-period short-term(Default period : 12) : ")
         windowFast = int(windowFast)
@@ -73,21 +78,28 @@ def techIndicatorsMenu(stock) :
         windowSignal = int(windowSignal)
 
         MACD.calculate(stock,windowFast,windowSlow,windowSignal)
+        os.system("cls")
+        techIndicatorsMenu(stock)
     elif userChoice == 3 :
         window = input("please input n-period(Default period : 14) : ")
         window = int(window)
 
         RSI.calculate(stock, window)
+        os.system("cls")
+        techIndicatorsMenu(stock)
 
     elif userChoice == 4 :
         window = input("please input n-period(Default period : 14) : ")
         window = int(window)
 
         ATR.calculate(stock,window)
+        os.system("cls")
+        techIndicatorsMenu(stock)
     elif userChoice == 0 :
-        print("")
+        print("Going to simulation menu...")
+        os.system("cls")
 
-def simulationMenu(stock) :
+def simulationMenu(stock,stockSymbol) :
     print("Which Technical Indicator(s) you would you like to do the simulation? ", end = "")
     print('''
     1. ADX
@@ -102,15 +114,18 @@ def simulationMenu(stock) :
 
     if userChoice == 1 :
         signalColumn = ""
-        simulation.runSimulation(stock, signalColumn)
+        simulation.runSimulation(stock, signalColumn, stockSymbol)
     elif userChoice == 2:
         signalColumn = ""
-        simulation.runSimulation(stock, signalColumn)
+        simulation.runSimulation(stock, signalColumn, stockSymbol)
+        simulationMenu(stock,stockSymbol)   
     elif userChoice == 3 :
-        signalColumn = ""
-        simulation.runSimulation(stock, signalColumn)   
+        signalColumn = "RSI_Recommend"
+        indicatorColumn = "RSI"
+        simulation.runSimulation(stock,indicatorColumn, signalColumn, stockSymbol)
+        simulationMenu(stock,stockSymbol)   
     elif userChoice == 4 :
         signalColumn = ""
-        simulation.runSimulation(stock, signalColumn)
+        simulation.runSimulation(stock, signalColumn, stockSymbol)
     elif userChoice == 0 :
         exit()
