@@ -5,7 +5,7 @@ import yfinance as yf
 import os
 
 # import local python file(s)
-from . import accDistIndex as ADX
+from . import chaikinMoneyFlow as CMF
 from . import movAvgConvDiv as MACD
 from . import relativeStrengthIndex as RSI
 from . import averageTrueRange as ATR
@@ -53,7 +53,7 @@ def techIndicatorsMenu(stock) :
 
     print("Which Technical Indicator(s) you would you like to add? ", end = "")
     print('''
-    1. ADX
+    1. CMF
     2. MACD
     3. RSI
     4. ATR
@@ -64,7 +64,9 @@ def techIndicatorsMenu(stock) :
     userChoice = int(userChoice)
 
     if userChoice == 1 :
-        ADX.calculate(stock)
+        window = input("please input n-period(Default period : 20) : ")
+        window = int(window)
+        CMF.calculate(stock)
         os.system("cls")
         techIndicatorsMenu(stock)
     elif userChoice == 2:
@@ -100,7 +102,7 @@ def techIndicatorsMenu(stock) :
         os.system("cls")
 
 def simulationMenu(stock,stockSymbol) :
-    print("Which Technical Indicator(s) you would you like to do the simulation? ", end = "")
+    print("Which Technical Indicator(s) would you like to do the simulation? ", end = "")
     print('''
     1. ADX
     2. MACD
