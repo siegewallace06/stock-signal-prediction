@@ -4,29 +4,31 @@ from ta.utils import dropna
 import yfinance as yf
 import os
 
+# ta module reference
+# https://technical-analysis-library-in-python.readthedocs.io/en/latest/
 # import local python file(s)
 from . import chaikinMoneyFlow as CMF
 from . import movAvgConvDiv as MACD
 from . import relativeStrengthIndex as RSI
-from . import averageTrueRange as ATR
+from . import donchianChannel as DC
 from . import tradeSimulation as simulation
 # Basic Menu 
 
 def mainMenu() :
     print("Welcome to Stock Simulation Program!")
-    # stockSymbol = input("Please enter the stock symbol(ticker) : ")
-    # stockSymbol = stockSymbol.upper()
+    stockSymbol = input("Please enter the stock symbol(ticker) : ")
+    stockSymbol = stockSymbol.upper()
     #you can use this if you dont want to manually input
-    stockSymbol = "ARTO"
+    # stockSymbol = "ARTO"
     #Add .JK for stock symbol in Indonesia Stock Exchange
     # stockSymbol = stockSymbol + ".JK"
 
     #input the period time for the trading data
-    # stockPeriod = input("Please enter the period : ")
-    stockPeriod = "2y"
+    stockPeriod = input("Please enter the period : ")
+    # stockPeriod = "2y"
     #input the interval gap for the trading data
-    # stockInterval = input("Please enter the interval : ")
-    stockInterval = "1h"
+    stockInterval = input("Please enter the interval : ")
+    # stockInterval = "1h"
 
     #Download the stock data
     stock = yf.download(stockSymbol + ".JK", period = stockPeriod, interval = stockInterval)
@@ -53,10 +55,10 @@ def techIndicatorsMenu(stock) :
 
     print("Which Technical Indicator(s) you would you like to add? ", end = "")
     print('''
-    1. CMF
-    2. MACD
-    3. RSI
-    4. ATR
+    1. CMF(Chaikin Money Flow)
+    2. MACD(Moving Average Convergence Divergence)
+    3. RSI(Relative Strength Index)
+    4. DC(Donchian Channel)
     0. Go To Simulation
     ''')
 
@@ -91,10 +93,10 @@ def techIndicatorsMenu(stock) :
         techIndicatorsMenu(stock)
 
     elif userChoice == 4 :
-        window = input("please input n-period(Default period : 14) : ")
+        window = input("please input n-period(Default period : 20) : ")
         window = int(window)
 
-        ATR.calculate(stock,window)
+        DC.calculate(stock,window)
         os.system("cls")
         techIndicatorsMenu(stock)
     elif userChoice == 0 :
@@ -104,10 +106,10 @@ def techIndicatorsMenu(stock) :
 def simulationMenu(stock,stockSymbol) :
     print("Which Technical Indicator(s) would you like to do the simulation? ", end = "")
     print('''
-    1. ADX
-    2. MACD
-    3. RSI
-    4. ATR
+    1. CMF(Chaikin Money Flow)
+    2. MACD(Moving Average Convergence Divergence)
+    3. RSI(Relative Strength Index)
+    4. DC(Donchian Channel)
     0. Exit
     ''')
 
