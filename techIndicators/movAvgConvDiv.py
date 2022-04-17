@@ -33,4 +33,4 @@ def calculate(stock,windowFast,windowSlow,windowSignal) :
 
     print("The MACD Values and Signal Recommendation has been succesfully added!")
     print("Type anything to return to the menu")
-    os.system("continue")
+    os.system("pause")

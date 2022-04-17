@@ -22,7 +22,7 @@ def calculate(stock,window) :
 
     print("The CMF Values and Signal Recommendation has been succesfully added!")
     print("Type anything to return to the menu")
-    os.system("continue")
+    os.system("pause")
 
-    menu.techIndicatorsMenu(stock)
+    # menu.techIndicatorsMenu(stock)
     return()

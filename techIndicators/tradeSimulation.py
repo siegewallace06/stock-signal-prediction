@@ -5,7 +5,7 @@ import pandas as pd
 import os
 
 
-def runSimulation(stock,indicatorColumn, signalColumn, stockSymbol):
+def runSimulation(stock, indicatorColumn, signalColumn, stockSymbol, indicatorColumn2=None, indicatorColumn3=None):
     # Trading Simulation
     # Declare variable to check if we already owned the stock or not
     isOwned = False
@@ -33,6 +33,11 @@ def runSimulation(stock,indicatorColumn, signalColumn, stockSymbol):
     profitList = list()
     signalList = list()
 
+    if indicatorColumn3 != None:
+        signalList3 = list()
+        signalList2 = list()
+    elif indicatorColumn2 != None:
+        signalList2 = list()
     # BUY Fee => 0.36% (Broker Fee(0.19%) + Levy(0.04%) + PPN(0.03%) + PPh(0.1%))
     # SELL Fee => 0.46% (Broker Fee(0.29%) + Levy(0.04%) + PPN(0.03%) + PPh(0.1%))
 
@@ -43,6 +48,10 @@ def runSimulation(stock,indicatorColumn, signalColumn, stockSymbol):
             if row[signalColumn] == "BUY":
                 orderList.append("BUY")
                 signalList.append(row[indicatorColumn])
+                if indicatorColumn3 != None:
+                    signalList3.append(row[indicatorColumn3])
+                if indicatorColumn2 != None:
+                    signalList2.append(row[indicatorColumn2])
                 # assign the current price
                 currentPrice = row["Close"] * 100
                 closePriceList.append(currentPrice)
@@ -75,6 +84,10 @@ def runSimulation(stock,indicatorColumn, signalColumn, stockSymbol):
             if row[signalColumn] == "SELL":
                 orderList.append("SELL")
                 signalList.append(row[indicatorColumn])
+                if indicatorColumn3 != None:
+                    signalList3.append(row[indicatorColumn3])
+                if indicatorColumn2 != None:
+                    signalList2.append(row[indicatorColumn2])
                 # Temp variable to store the current price
                 tempPrice = row["Close"] * 100
                 closePriceList.append(tempPrice)
@@ -101,31 +114,70 @@ def runSimulation(stock,indicatorColumn, signalColumn, stockSymbol):
                 indexList.append(i)
     # print("Total Profit : Rp.",totalProfit)
 
-    simulationLogDict = {"Close Price": closePriceList,
-                         "Tax": taxList,
-                         "Purchased Price" : purchasedPriceList,
-                         "Capital Gain": profitList,
-                         "Order": orderList,
-                         indicatorColumn : signalList
-                         }
-
+    if indicatorColumn3 != None:
+        simulationLogDict = {"Close Price": closePriceList,
+                             "Tax": taxList,
+                             "Purchased Price": purchasedPriceList,
+                             "Capital Gain": profitList,
+                             "Order": orderList,
+                             indicatorColumn: signalList,
+                             indicatorColumn2: signalList2,
+                             indicatorColumn3: signalList3
+                             }
+    elif indicatorColumn2 != None:
+        simulationLogDict = {"Close Price": closePriceList,
+                             "Tax": taxList,
+                             "Purchased Price": purchasedPriceList,
+                             "Capital Gain": profitList,
+                             "Order": orderList,
+                             indicatorColumn: signalList,
+                             indicatorColumn2: signalList2
+                             }
+    else:
+        simulationLogDict = {"Close Price": closePriceList,
+                             "Fee": taxList,
+                             "Purchased Price": purchasedPriceList,
+                             "Capital Gain": profitList,
+                             "Order": orderList,
+                             indicatorColumn: signalList
+                             }
     simulationTable = BeautifulTable()
-    simulationTable.columns.header = [
-        "Index", "Close Price", "Tax", "Purchased Price", "Capital Gain", "Order", indicatorColumn]
-    i = 0
-    while i < len(indexList):
-        simulationTable.rows.append(
-            [indexList[i], closePriceList[i], taxList[i], purchasedPriceList[i], profitList[i], orderList[i], signalList[i]])
-        i = i + 1
+
+    # print(len(signalList))
+    # print(len(signalList2))
+    # print(len(signalList3))
+
+    if indicatorColumn3 != None:
+        simulationTable.columns.header = [
+            "Index", "Close Price", "Fee", "Purchased Price", "Capital Gain", "Order", indicatorColumn, indicatorColumn2, indicatorColumn3]
+        i = 0
+        while i < len(indexList):
+            simulationTable.rows.append(
+                [indexList[i], closePriceList[i], taxList[i], purchasedPriceList[i], profitList[i], orderList[i], signalList[i], signalList2[i], signalList3[i]])
+            i = i + 1
+    elif indicatorColumn2 != None:
+        simulationTable.columns.header = [
+            "Index", "Close Price", "Fee", "Purchased Price", "Capital Gain", "Order", indicatorColumn, indicatorColumn2]
+        i = 0
+        while i < len(indexList):
+            simulationTable.rows.append(
+                [indexList[i], closePriceList[i], taxList[i], purchasedPriceList[i], profitList[i], orderList[i], signalList[i], signalList2[i]])
+            i = i + 1
+
+    else:
+        simulationTable.columns.header = [
+            "Index", "Close Price", "Fee", "Purchased Price", "Capital Gain", "Order", indicatorColumn]
+        i = 0
+        while i < len(indexList):
+            simulationTable.rows.append(
+                [indexList[i], closePriceList[i], taxList[i], purchasedPriceList[i], profitList[i], orderList[i], signalList[i]])
+            i = i + 1
     # simulationTable.columns.insert(indexList, header = "Index")
     # simulationTable.columns.insert(closePriceList, header = "Close Price")
     # simulationTable.columns.insert(purchasedPriceList, header = "Purchased Price")
     # simulationTable.columns.insert(profitList, header="Profit")
     # simulationTable.columns.insert(orderList,header="Order")
     print(simulationTable)
-
-    simulationLog = pd.DataFrame(simulationLogDict)
-    simulationLog.to_csv("Log/" + stockSymbol + ".csv")
 
     # SIMULATION SUMMARY
     profitPercentage = totalProfit / initialCapital * 100
@@ -139,6 +191,9 @@ def runSimulation(stock,indicatorColumn, signalColumn, stockSymbol):
     print("Total Transaction Fee Paid : Rp.", totalTax)
     print("Number of stock(s) purchased: ", numberPurchase)
     print("Number of stock(s) sold : ", numberSell)
+
+    simulationLog = pd.DataFrame(simulationLogDict)
+    simulationLog.to_csv("Log/" + stockSymbol + ".csv")
 
     print("\nSimulation Success and log printed to CSV! Type anything to return to the Simulation Menu")
     os.system("pause")
