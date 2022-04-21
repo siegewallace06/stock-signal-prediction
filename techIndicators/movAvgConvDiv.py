@@ -3,6 +3,12 @@ import os
 # import MACD class from ta module
 from ta.trend import MACD
 
+# MACD Line: (12-day EMA - 26-day EMA)
+
+# Signal Line: 9-day EMA of MACD Line
+
+# MACD Histogram: MACD Line - Signal Line
+
 def calculate(stock,windowFast,windowSlow,windowSignal) :
     # Initialize MACD variable
     # parameters
@@ -25,8 +31,8 @@ def calculate(stock,windowFast,windowSlow,windowSignal) :
     # in the dataframe, locate the column that are correct according to the rules above.
     # after that assign the signal to MACD_Recommend
     # For now the 'HOLD' is just a placeholder so the column won't be empty
-    stock.loc[(stock['MACD_line'] >= 1) & (stock['MACD_line']  >= stock['MACD_signal']), 'MACD_Recommend'] = 'SELL'
-    stock.loc[(stock['MACD_line'] >= 1) & (stock['MACD_line']  <= stock['MACD_signal']), 'MACD_Recommend'] = 'HOLD'
+    stock.loc[(stock['MACD_line'] >= 0) & (stock['MACD_line']  >= stock['MACD_signal']), 'MACD_Recommend'] = 'SELL'
+    stock.loc[(stock['MACD_line'] >= 0) & (stock['MACD_line']  <= stock['MACD_signal']), 'MACD_Recommend'] = 'HOLD'
 
     stock.loc[(stock['MACD_line'] <= 0) & (stock['MACD_line']  <= stock['MACD_signal']), 'MACD_Recommend'] = 'BUY'
     stock.loc[(stock['MACD_line'] <= 0) & (stock['MACD_line']  >= stock['MACD_signal']), 'MACD_Recommend'] = 'HOLD'

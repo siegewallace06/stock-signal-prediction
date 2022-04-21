@@ -25,9 +25,9 @@ def calculate(stock, window) :
    # IF the closing price EQUAL or LESS than Low Band or Less than Mid Band THEN BUY
 
    stock.loc[(stock['Close'] >= stock['DC_hband']) , 'DC_Recommend'] = 'SELL'
-   stock.loc[(stock['Close'] >= stock['DC_mband']) , 'DC_Recommend'] = 'SELL'
-   stock.loc[(stock['Close'] <= stock['DC_mband']) , 'DC_Recommend'] = 'BUY'
-   stock.loc[(stock['Close'] <= stock['DC_mband']) , 'DC_Recommend'] = 'BUY'
+   stock.loc[(stock['High'] > stock['DC_mband']) & (stock['Low'] < stock['DC_mband']) & (stock['Close'] < stock['Open']), 'DC_Recommend'] = 'SELL'
+   stock.loc[(stock['High'] > stock['DC_mband']) & (stock['Low'] < stock['DC_mband']) & (stock['Close'] > stock['Open']), 'DC_Recommend'] = 'BUY'
+   stock.loc[(stock['Close'] <= stock['DC_lband']) , 'DC_Recommend'] = 'BUY'
 
    print("The DC Values and Signal Recommendation has been succesfully added!")
    print("Type anything to return to the menu")

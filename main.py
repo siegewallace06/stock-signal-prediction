@@ -15,7 +15,7 @@ stockSymbol = stockSymbol[0:4]
 
 # print(stock)
 
-menu.techIndicatorsMenu(stock)
+menu.techIndicatorsMenu(stock,stockSymbol)
 
 menu.simulationMenu(stock,stockSymbol)
 

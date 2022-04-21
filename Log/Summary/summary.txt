@@ -1,0 +1,84 @@
+
+=========================
+FRAKSI 1
+=========================
+
+FREN
+
+--------------------------
+SIMULATION SUMMARY FREN CMF
+--------------------------
+Initial Capital : Rp. 11039.0
+Total Capital Gain : Rp. -6065.0 ( -54 %)
+Total Transaction Fee Paid : Rp. 8094
+Number of stock(s) purchased:  108
+Number of stock(s) sold :  107
+
+--------------------------
+SIMULATION SUMMARY FREN MACD
+--------------------------
+Initial Capital : Rp. 10036.0
+Total Capital Gain : Rp. -9226.0 ( -91 %)
+Total Transaction Fee Paid : Rp. 3326
+Number of stock(s) purchased:  44
+Number of stock(s) sold :  44
+
+--------------------------
+SIMULATION SUMMARY FREN RSI
+--------------------------
+Initial Capital : Rp. 9433.0
+Total Capital Gain : Rp. -4774.0 ( -50 %)
+Total Transaction Fee Paid : Rp. 974
+Number of stock(s) purchased:  13
+Number of stock(s) sold :  13
+
+--------------------------
+SIMULATION SUMMARY FREN DC
+--------------------------
+Initial Capital : Rp. 10437.0
+Total Capital Gain : Rp. -6465.0 ( -61 %)
+Total Transaction Fee Paid : Rp. 8965
+Number of stock(s) purchased:  120
+Number of stock(s) sold :  120
+
+DMAS
+
+--------------------------
+SIMULATION SUMMARY DMAS CMF
+--------------------------
+Initial Capital : Rp. 18767.0
+Total Capital Gain : Rp. -24526.0 ( -130 %)
+Total Transaction Fee Paid : Rp. 16726
+Number of stock(s) purchased:  101
+Number of stock(s) sold :  101
+
+--------------------------
+SIMULATION SUMMARY DMAS MACD
+--------------------------
+Initial Capital : Rp. 16157.0
+Total Capital Gain : Rp. -8358.0 ( -51 %)
+Total Transaction Fee Paid : Rp. 7724
+Number of stock(s) purchased:  45
+Number of stock(s) sold :  44
+
+--------------------------
+SIMULATION SUMMARY DMAS RSI
+--------------------------
+Initial Capital : Rp. 17362.0
+Total Capital Gain : Rp. -907.0 ( -5 %)
+Total Transaction Fee Paid : Rp. 2075
+Number of stock(s) purchased:  13
+Number of stock(s) sold :  12
+
+--------------------------
+SIMULATION SUMMARY DMAS RSI
+--------------------------
+Initial Capital : Rp. 17362.0
+Total Capital Gain : Rp. -37662.0 ( -216 %)
+Total Transaction Fee Paid : Rp. 27462
+Number of stock(s) purchased:  158
+Number of stock(s) sold :  158
+
+=========================
+FRAKSI 2
+=========================

@@ -1,4 +1,5 @@
 # import required module(s)
+import pandas as pd
 from ta.utils import dropna
 import yfinance as yf
 import os
@@ -6,6 +7,7 @@ import os
 # ta module reference
 # https://technical-analysis-library-in-python.readthedocs.io/en/latest/
 # import local python file(s)
+
 from . import chaikinMoneyFlow as CMF
 from . import movAvgConvDiv as MACD
 from . import relativeStrengthIndex as RSI
@@ -16,23 +18,26 @@ from . import tradeSimulation as simulation
 
 def mainMenu():
     print("Welcome to Stock Simulation Program!")
-    # stockSymbol = input("Please enter the stock symbol(ticker) : ")
+    stockSymbol = input("Please enter the stock symbol(ticker) : ")
     # you can use this if you dont want to manually input
-    stockSymbol = "ARTO"
+    # stockSymbol = "ARTO"
     stockSymbol = stockSymbol.upper()
     # Add .JK for stock symbol in Indonesia Stock Exchange
     # stockSymbol = stockSymbol + ".JK"
 
     # input the period time for the trading data
-    # stockPeriod = input("Please enter the period : ")
-    stockPeriod = "2y"
+    stockPeriod = input("Please enter the period : ")
+    # stockPeriod = "2y"
     # input the interval gap for the trading data
-    # stockInterval = input("Please enter the interval : ")
-    stockInterval = "1h"
+    stockInterval = input("Please enter the interval : ")
+    # stockInterval = "1h"
 
     # Download the stock data
     stock = yf.download(stockSymbol + ".JK",
                         period=stockPeriod, interval=stockInterval)
+
+    # stock = pd.read_csv('Log/Data/FREN.csv')
+    #stockSymbol = "FREN"
 
     # Check if the data frame is empty then repeat
     if stock.empty:
@@ -48,7 +53,7 @@ def mainMenu():
     return stock, stockSymbol
 
 
-def techIndicatorsMenu(stock):
+def techIndicatorsMenu(stock,stockSymbol):
 
     # print(stock)
     # os.system("pause")
@@ -72,7 +77,7 @@ def techIndicatorsMenu(stock):
         window = int(window)
         CMF.calculate(stock, window)
         os.system("cls")
-        techIndicatorsMenu(stock)
+        techIndicatorsMenu(stock,stockSymbol)
 
     # CHOICE 2 DONE!
     elif userChoice == 2:
@@ -90,7 +95,7 @@ def techIndicatorsMenu(stock):
 
         MACD.calculate(stock, windowFast, windowSlow, windowSignal)
         os.system("cls")
-        techIndicatorsMenu(stock)
+        techIndicatorsMenu(stock,stockSymbol)
 
     # CHOICE 3 DONE
     elif userChoice == 3:
@@ -99,7 +104,7 @@ def techIndicatorsMenu(stock):
 
         RSI.calculate(stock, window)
         os.system("cls")
-        techIndicatorsMenu(stock)
+        techIndicatorsMenu(stock,stockSymbol)
 
     elif userChoice == 4:
         window = input("please input n-period(Default period : 20) : ")
@@ -107,9 +112,11 @@ def techIndicatorsMenu(stock):
 
         DC.calculate(stock, window)
         os.system("cls")
-        techIndicatorsMenu(stock)
+        techIndicatorsMenu(stock,stockSymbol)
     elif userChoice == 0:
-        print("Going to simulation menu...")
+        dataPath = "Log/Data/" + stockSymbol + ".csv"
+        stock.to_csv(dataPath)
+        print("Saving and going to simulation menu...")
         os.system("cls")
 
 
@@ -120,8 +127,14 @@ def simulationMenu(stock, stockSymbol):
     2. MACD(Moving Average Convergence Divergence)
     3. RSI(Relative Strength Index)
     4. DC(Donchian Channel)
+    5. CMF + MACD
+    6. CMF + DC
+    7. RSI + CMF + MACD
+    8. RSI + CMF + DC
+    9. RSI + CMF + MACD + DC
     0. Exit
     ''')
+
 
     userChoice = input("Enter your choice : ")
     userChoice = int(userChoice)
@@ -158,6 +171,21 @@ def simulationMenu(stock, stockSymbol):
         indicatorColumn3 = "DC_lband"
         simulation.runSimulation(stock, indicatorColumn, signalColumn, stockSymbol,
                                  indicatorColumn2=indicatorColumn2, indicatorColumn3=indicatorColumn3)
+        simulationMenu(stock, stockSymbol)
+    elif userChoice == 5:
+        simulation.cmf_macd(stock,stockSymbol)
+        simulationMenu(stock, stockSymbol)
+    elif userChoice == 6 :
+        simulation.cmf_dc(stock,stockSymbol)
+        simulationMenu(stock, stockSymbol)
+    elif userChoice == 7 :
+        simulation.rsi_cmf_macd(stock,stockSymbol)
+        simulationMenu(stock, stockSymbol)
+    elif userChoice == 8 :
+        simulation.rsi_cmf_dc(stock,stockSymbol)
+        simulationMenu(stock, stockSymbol)
+    elif userChoice == 9 :
+        simulation.rsi_cmf_macd_dc(stock,stockSymbol)
         simulationMenu(stock, stockSymbol)
     elif userChoice == 0:
         exit()
